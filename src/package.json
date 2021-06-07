@@ -3,14 +3,24 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "compile:sass": "node-sass public/sass/index.scss public/stylesheets/style.css -w"
   },
   "dependencies": {
+    "body-parser": "^1.19.0",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "ejs": "~2.6.1",
     "express": "~4.16.1",
+    "express-session": "^1.17.2",
     "http-errors": "~1.6.3",
-    "morgan": "~1.9.1"
+    "jest": "^27.0.4",
+    "method-override": "^3.0.0",
+    "mongodb": "^3.6.9",
+    "mongoose": "^5.12.12",
+    "morgan": "~1.9.1",
+    "node-sass": "^6.0.0",
+    "passport": "^0.4.1",
+    "passport-local": "^1.0.0"
   }
 }
