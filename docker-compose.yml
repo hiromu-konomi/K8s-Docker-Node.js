@@ -1,0 +1,59 @@
+version: "3"
+
+services:
+  web:
+    container_name: web
+    image: nginx
+    depends_on:
+      - app
+      - mongo
+    ports:
+      - "80:80"
+    volumes:
+      - ./docker/nginx/conf.d:/etc/nginx/conf.d
+    networks:
+      - nginx-app-network
+    restart: always
+
+  app:
+    container_name: app
+    build:
+      context: .
+      dockerfile: ./docker/app/Dockerfile
+    working_dir: /app
+    depends_on:
+      - mongo
+    volumes:
+      - ./src:/app
+      - /app/node_modules
+    ports:
+      - "3000:3000"
+    tty: true
+    networks:
+      - app-mongo-network
+      - nginx-app-network
+    restart: always
+
+  mongo:
+    container_name: mongo
+    image: mongo:4.0.5
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./docker/mongo/db:/data/db
+    tty: true
+    command:
+      - mongod
+    networks:
+      - app-mongo-network
+    restart: always
+
+networks:
+  app-mongo-network:
+    driver: bridge
+  nginx-app-network:
+    driver: bridge
