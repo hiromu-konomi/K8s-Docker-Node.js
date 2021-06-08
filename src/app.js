@@ -1,13 +1,29 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const createError = require('http-errors'),
+    express = require('express'),
+    path = require('path'),
+    cookieParser = require('cookie-parser'),
+    logger = require('morgan'),
+    mongoose = require('mongoose'),
+    indexRouter = require('./routes/index'),
+    usersRouter = require('./routes/users'),
+    tweetsRouter = require('./routes/tweets'),
+    app = express();
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
 
-var app = express();
+// mongoose.connect('mongodb://localhost:27017', {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true,
+//   user: process.env.MONGO_INITDB_ROOT_USERNAME,
+//   pass: process.env.MONGO_INITDB_ROOT_PASSWORD,
+//   dbName: process.env.MONGO_INITDB_DATABASE,
+// }).then(()=>{
+//     console.log('connect')
+// }).catch((err) => {
+//     console.log('error')
+//     console.error(err);
+// });
+// const db = mongoose.connection;
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -21,6 +37,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/tweet', tweetsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
