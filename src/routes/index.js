@@ -1,9 +1,12 @@
-var express = require('express');
-var router = express.Router();
+"use strict";
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
+const router = require("express").Router(),
+    userRoutes = require("./users"),
+    tweetRoutes = require("./tweets"),
+    favoriteRoutes = require("./favorites");
+
+router.use("/account", userRoutes);
+router.use("/tweet", tweetRoutes);
+router.use("/favorite", favoriteRoutes);
 
 module.exports = router;
