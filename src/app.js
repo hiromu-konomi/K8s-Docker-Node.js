@@ -9,20 +9,26 @@ const createError = require('http-errors'),
     tweetsRouter = require('./routes/tweets'),
     app = express();
 
+//require('dotenv').config();
 
-// mongoose.connect('mongodb://localhost:27017', {
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true,
-//   user: process.env.MONGO_INITDB_ROOT_USERNAME,
-//   pass: process.env.MONGO_INITDB_ROOT_PASSWORD,
-//   dbName: process.env.MONGO_INITDB_DATABASE,
+console.log(9)
+//console.log(process.env)
+
+// mongoose.connect('mongodb://root:test@mongo:27017/test?authSource=admin', {
+//     useNewUrlParser: true,
+//     useUnifiedTopology: true,
+//     // auth: { authSource: "admin" },
+//     // user: "root",
+//     // pass: "test",
 // }).then(()=>{
-//     console.log('connect')
+//     console.log('connect!!!!')
 // }).catch((err) => {
 //     console.log('error')
 //     console.error(err);
 // });
 // const db = mongoose.connection;
+// db.on('error', console.error.bind(console, 'connection error:'));
+// mongoose.Promise = global.Promise
 
 
 // view engine setup
