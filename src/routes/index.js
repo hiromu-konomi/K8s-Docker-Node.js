@@ -7,7 +7,7 @@ router.get('/', function(req, res, next) {
   console.log('RRRRouter!!')
   res.render('index', { title: 'Express' });
 });
-router.get('/account/register', function(req, res, next) {
+router.get('/register', function(req, res, next) {
   res.render('account/register');
 });
 
