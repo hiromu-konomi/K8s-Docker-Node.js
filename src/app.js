@@ -4,20 +4,16 @@ const createError = require('http-errors'),
     cookieParser = require('cookie-parser'),
     logger = require('morgan'),
     mongoose = require('mongoose'),
-    indexRouter = require('./routes/index'),
+    router = require('./routes/index'),
     app = express();
 
-//require('dotenv').config();
 
-console.log(9)
-//console.log(process.env)
-
-mongoose.connect('mongodb://root:test@mongo:27017/test?authSource=admin', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    // auth: { authSource: "admin" },
-    // user: "root",
-    // pass: "test",
+mongoose.connect('mongodb://localhost:27017', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  user: process.env.MONGO_INITDB_ROOT_USERNAME,
+  pass: process.env.MONGO_INITDB_ROOT_PASSWORD,
+  dbName: process.env.MONGO_INITDB_DATABASE,
 }).then(()=>{
     console.log('connect')
 }).catch((err) => {
@@ -25,9 +21,6 @@ mongoose.connect('mongodb://root:test@mongo:27017/test?authSource=admin', {
     console.error(err);
 });
 const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
-//mongoose.Promise = global.Promise
-
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -37,11 +30,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-//ルーティングを一括管理するroutesファイルに接続
-app.use('/', indexRouter);
+
+// routing
+app.use("/", router);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
+  console.log('4044444!!!')
   next(createError(404));
 });
 
@@ -55,5 +50,7 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+console.log("app.js!!")
 
 module.exports = app;
