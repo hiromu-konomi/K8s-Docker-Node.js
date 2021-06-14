@@ -1,12 +1,17 @@
-"use strict";
+const router = require('express').Router(),
+    usersRouter = require('./users'),
+    tweetsRouter = require('./tweets');
 
-const router = require("express").Router(),
-    userRoutes = require("./users"),
-    tweetRoutes = require("./tweets"),
-    favoriteRoutes = require("./favorites");
+/* GET home page. */
+router.get('/', function(req, res, next) {
+  console.log('RRRRouter!!')
+  res.render('index', { title: 'Express' });
+});
+router.get('/account/register', function(req, res, next) {
+  res.render('account/register');
+});
 
-router.use("/account", userRoutes);
-router.use("/tweet", tweetRoutes);
-router.use("/favorite", favoriteRoutes);
+router.use('/users', usersRouter);
+router.use('/tweet', tweetsRouter);
 
 module.exports = router;

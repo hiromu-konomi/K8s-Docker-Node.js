@@ -8,19 +8,19 @@ const createError = require('http-errors'),
     app = express();
 
 
-// mongoose.connect('mongodb://localhost:27017', {
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true,
-//   user: process.env.MONGO_INITDB_ROOT_USERNAME,
-//   pass: process.env.MONGO_INITDB_ROOT_PASSWORD,
-//   dbName: process.env.MONGO_INITDB_DATABASE,
-// }).then(()=>{
-//     console.log('connect')
-// }).catch((err) => {
-//     console.log('error')
-//     console.error(err);
-// });
-// const db = mongoose.connection;
+mongoose.connect('mongodb://localhost:27017', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  user: process.env.MONGO_INITDB_ROOT_USERNAME,
+  pass: process.env.MONGO_INITDB_ROOT_PASSWORD,
+  dbName: process.env.MONGO_INITDB_DATABASE,
+}).then(()=>{
+    console.log('connect')
+}).catch((err) => {
+    console.log('error')
+    console.error(err);
+});
+const db = mongoose.connection;
 
 
 // view engine setup
@@ -33,8 +33,12 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// routing
+app.use("/", router);
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
+  console.log('4044444!!!')
   next(createError(404));
 });
 
@@ -49,7 +53,6 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-// routing
-app.use("/", router);
+console.log("app.js!!")
 
 module.exports = app;
