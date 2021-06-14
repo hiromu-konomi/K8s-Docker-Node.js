@@ -33,6 +33,9 @@ services:
       - app-mongo-network
       - nginx-app-network
     restart: always
+    command: npm start
+    environment:
+      CHOKIDAR_USEPOLLING: 1
 
   mongo:
     container_name: mongo
