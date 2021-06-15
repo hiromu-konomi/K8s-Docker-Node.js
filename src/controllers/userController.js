@@ -21,6 +21,15 @@ exports.createUser = (req,res) => {
         if(error) console.log(error)
         else
             console.log("saved : " + result);
+
+        User.find({}, (error, result) => {
+            if (error) console.log(error)
+            console.log('show users collection')
+            console.log(result)
+        })
+
         res.redirect('/')
     })
+
+
 }

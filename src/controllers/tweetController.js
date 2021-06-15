@@ -2,7 +2,7 @@ const Tweet = require('../models/tweetSchema'),
     User = require('../models/userSchema');
 
 exports.createTweets = async (req,res) => {
-    console.log('createTweetを処理中')
+    console.log('createTweet....')
     console.log(req.body);
     let user;
     User.find({},(error, result) =>{
@@ -20,13 +20,13 @@ exports.createTweets = async (req,res) => {
             if(error) console.log(error)
             else
                 console.log("saved : " + result);
-            res.redirect('/tweet/')
+            res.redirect('/tweets/')
         })
     })
 }
 
 exports.getAllTweets = (req,res) => {
-    console.log('getAllTweetsを処理中')
+    console.log('getAllTweets......')
     Tweet.find({}).populate('user').exec((error, result )=>{
         console.log(result)
         const user = {
@@ -37,7 +37,7 @@ exports.getAllTweets = (req,res) => {
         // console.log(result[0]._id.getTimestamp())
         if ( result.length === 0 ){
             console.log("!result")
-            res.render('tweet/index', {
+            res.render('tweets/index', {
                 tweets:result,
                 user:user
             })
@@ -45,7 +45,7 @@ exports.getAllTweets = (req,res) => {
         if(!error)
             // User.findById(result.user)
             console.log("!error")
-        res.render('tweet/index', {
+        res.render('tweets/index', {
             tweets:result,
             user:user
         })
