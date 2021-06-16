@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home Page</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+<body>
+<h1><%= user.name %></h1>
+<p>Welcome to <%= user.password %></p>
+
+<% if ( tweets.length === 0 ) { %>
+    <p>No Tweets</p>
+<% } else {%>
+    <% tweets.forEach((tweet) => { %>
+        <p class="usertext">user : <%= tweet.user.name %> </p>
+        <p>content : <%= tweet.content %> </p>
+        <p>
+        <form action='/favorites/switch/<%= tweet._id %>' method="post">
+            <button type="submit" value="<%= tweet._id%>" id='myButton'>いいね</button>
+        </form>
+        </p>
+    <%})%>
+<% } %>
+<hr>
+
+<form method="post" action="/tweets/create">
+    <textarea type="text"  name="content" placeholder="content" cols="30" rows="4">
+
+    </textarea>
+    <br/>
+    <br/>
+    <input type="submit" >
+</form>
+
+</body>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script type="module">
+    // import * as func from "../../lib/eventEmitter.js";
+    // $(function (){
+    //   $('#myButton').click( (event) =>{
+    //       console.log(event.target.value)
+    //       func.start()
+    //       alert('aaa')
+    //   })
+    // })
+</script>
+</html>
