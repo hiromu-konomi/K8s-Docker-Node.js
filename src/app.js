@@ -5,15 +5,17 @@ const createError = require('http-errors'),
     logger = require('morgan'),
     mongoose = require('mongoose'),
     router = require('./routes/index'),
+    passport = require('passport'),
+    LocalStrategy = require('passport-local').Strategy,
+    User = require('./models/userSchema'),
+    session = require('express-session'),
+    bodyParser = require('body-parser'),
     app = express();
 
 
-mongoose.connect('mongodb://localhost:27017', {
+mongoose.connect('mongodb://mongo:18fuw63x@mongo:27017/test?authSource=admin', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-  user: process.env.MONGO_INITDB_ROOT_USERNAME,
-  pass: process.env.MONGO_INITDB_ROOT_PASSWORD,
-  dbName: process.env.MONGO_INITDB_DATABASE,
 }).then(()=>{
     console.log('connect')
 }).catch((err) => {
@@ -21,6 +23,7 @@ mongoose.connect('mongodb://localhost:27017', {
     console.error(err);
 });
 const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
 
 //消さないでおいてくれると助かります
 // mongoose.connect('mongodb://root:test@mongo:27017/test?authSource=admin', {
@@ -44,15 +47,48 @@ app.set('view engine', 'ejs');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+// index.htmlのformから受け取った値を認証するための関数に渡すために必要
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(session({
+  resave: false,
+  saveUninitialized: false,
+  secret: 'passport test'
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy({
+  usernameField: 'email',
+  passwordField: 'password',
+  passReqToCallback: false,
+  session: false,
+}, function(email, password, done) {
+    User.findOne({ email: email }, function(err, user) {
+      if (err) { return done(err); }
+      if (!user) {
+        return done(null, false, { message: 'Incorrect email.' });
+      }
+      if (!user.validPassword(password)) {
+        return done(null, false, { message: 'Incorrect password.' });
+      }
+      return done(null, user);
+    });
+  }
+));
+passport.serializeUser(function (user, done) {
+  done(null, user);
+});
+passport.deserializeUser(function (user, done) {
+  done(null, user);
+});
 
 // routing
 app.use("/", router);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  console.log('4044444!!!')
   next(createError(404));
 });
 

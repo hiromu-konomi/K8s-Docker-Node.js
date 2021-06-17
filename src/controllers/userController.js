@@ -11,7 +11,7 @@ exports.getAllUsers = (req,res) => {
 }
 
 exports.createUser = (req,res) => {
-    console.log(req.body)
+    console.log(req.body);
     User.create({
         name:req.body.name,
         password:req.body.password,
@@ -26,5 +26,5 @@ exports.createUser = (req,res) => {
             console.log(result)
         })
         res.redirect('/')
-    })
+    });
 }
