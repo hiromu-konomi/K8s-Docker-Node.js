@@ -1,10 +1,11 @@
 const router = require('express').Router(),
     usersRouter = require('./users'),
     tweetsRouter = require('./tweets'),
-    favoritesRouter = require('./favorites');
+    favoritesRouter = require('./favorites'),
+    authenticate = require('../lib/authenticate');
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/', authenticate.ensureAuthenticated, function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 router.get('/register', function(req, res, next) {
