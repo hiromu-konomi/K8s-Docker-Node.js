@@ -50,7 +50,9 @@ app.use(express.urlencoded({ extended: false }));
 // index.htmlのformから受け取った値を認証するための関数に渡すために必要
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+//ajax用
+app.use('/public' , express.static(path.join(__dirname, 'public')));
+app.use( express.static(path.join(__dirname, 'public')));
 
 app.use(session({
   resave: false,
