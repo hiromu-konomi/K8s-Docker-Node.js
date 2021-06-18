@@ -4,7 +4,6 @@ const Tweet = require('../models/tweetSchema'),
 
 exports.switchFavorite = async (req,res) => {
     console.log('switchFavorite....')
-    console.log(req.params)
     let tweetUser;
     let loginUser;
 
@@ -12,21 +11,18 @@ exports.switchFavorite = async (req,res) => {
         if( result.length !== 0 ){
             tweetUser = result[0]
             loginUser = result[1]
-            console.log('tweetUser : ' + tweetUser)
-            console.log('loginUser : ' + loginUser)
-
+            // console.log('tweetUser : ' + tweetUser)
+            // console.log('loginUser : ' + loginUser)
             //populateを利用することで参照先のidのみならずフィールド全てを取得
             await Favorite.find({'user': loginUser , 'tweet' : req.params.id, }).populate('tweet').exec( async (error, result) =>{
                 if (error) console.log('fav find  err : ' + error)
-                console.log('fav find result : ' + result)
-
+                // console.log('fav find result : ' + result)
                 //フロー1
                 if(result.length === 0){
                     //tweet._idから投稿内容を取得
                     await Tweet.findById(req.params.id, async (err, result) =>{
                         if(err) console.log( 'tweet findById err : ' + err )
-                        console.log('tweet findById result : ' + result)
-
+                        // console.log('tweet findById result : ' + result)
                         //これらのデータをもとにfavoriteドキュメントを作成
                         await Favorite.create({
                             user:loginUser,
@@ -34,7 +30,9 @@ exports.switchFavorite = async (req,res) => {
                             status: true
                         }, async (error, result )=>{
                             if(error) console.log('fav create err : ' + error)
-                            console.log("fav create saved : " + result);
+                             console.log("fav create saved : " + result);
+                            res.contentType('json');
+                            res.json(result[0].status)
                         })
                     })
                 }
@@ -45,11 +43,15 @@ exports.switchFavorite = async (req,res) => {
                    else result[0].status = true
                    console.log('status updated : ' + result[0].status)
                    await result[0].save()
+                    res.contentType('json');
+                    res.json(result[0].status)
                 }
+
             })
         }
      })
-    res.redirect('/tweets/')
+
+    // res.redirect('/tweets/')
 }
 
 //フロー1：いいねボタン押下時にドキュメント作成

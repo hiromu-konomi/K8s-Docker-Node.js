@@ -24,6 +24,7 @@ exports.createTweets = async (req,res) => {
 }
 
 exports.getAllTweets = async (req,res) => {
+    //取得する際にログインユーザーがいいねした投稿内容を把握する必要あり
     console.log('getAllTweets......')
     await Tweet.find({}).populate('user').exec((error, result )=>{
         console.log('result : ' + result)
