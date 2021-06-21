@@ -5,7 +5,7 @@ const router = require('express').Router(),
 router.post('/create', userController.createUser);
 router.post('/login',
     passport.authenticate('local', {
-        successRedirect: '/',
+        successRedirect: '/tweets',
         failureRedirect: '/login',
         session: true
     })
