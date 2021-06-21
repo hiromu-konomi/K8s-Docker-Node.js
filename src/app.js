@@ -7,9 +7,11 @@ const createError = require('http-errors'),
     router = require('./routes/index'),
     passport = require('passport'),
     LocalStrategy = require('passport-local').Strategy,
-    User = require('./models/userSchema'),
+    bcrypt = require('bcryptjs'),
     session = require('express-session'),
     bodyParser = require('body-parser'),
+    flash = require('connect-flash'),
+    User = require('./models/userSchema'),
     app = express();
 
 
@@ -60,6 +62,7 @@ app.use(session({
   secret: 'passport test'
 }));
 app.use(passport.initialize());
+app.use(flash());
 app.use(passport.session());
 passport.use(new LocalStrategy({
   usernameField: 'email',
@@ -70,10 +73,10 @@ passport.use(new LocalStrategy({
     User.findOne({ email: email }, function(err, user) {
       if (err) { return done(err); }
       if (!user) {
-        return done(null, false, { message: 'Incorrect email.' });
+        return done(null, false, { message: '未登録のメールアドレスです。' });
       }
-      if (!user.validPassword(password)) {
-        return done(null, false, { message: 'Incorrect password.' });
+      if (!bcrypt.compareSync(password, user.password)) {
+        return done(null, false, { message: 'パスワードが正しくありません。' });
       }
       return done(null, user);
     });

@@ -7,7 +7,8 @@ router.post('/login',
     passport.authenticate('local', {
         successRedirect: '/',
         failureRedirect: '/login',
-        session: true
+        session: true,
+        failureFlash: true
     })
 );
 router.post('/logout', (req, res) => {
