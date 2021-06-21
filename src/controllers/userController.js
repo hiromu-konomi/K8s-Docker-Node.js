@@ -1,4 +1,5 @@
-const User = require('../models/userSchema');
+const User = require('../models/userSchema'),
+        bcrypt = require('bcryptjs');
 
 exports.getAllUsers = (req,res) => {
     User.find({},(error, result )=>{
@@ -11,12 +12,11 @@ exports.getAllUsers = (req,res) => {
 }
 
 exports.createUser = (req,res) => {
-    console.log(req.body);
     User.create({
-        name:req.body.name,
-        password:req.body.password,
-        email:req.body.email,
-        image:"",
+        name: req.body.name,
+        password: bcrypt.hashSync(req.body.password, 10),
+        email: req.body.email,
+        image: "",
     },(error, result )=>{
         if(error) console.log(error)
         else console.log("saved : " + result);
