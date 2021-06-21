@@ -8,7 +8,8 @@ const FavoriteSchema = new Schema({
     tweet:
         {type:Schema.Types.ObjectId, ref:'Tweet'}
     ,
-    status: Boolean
+    isFavorite: Boolean,
+    isRead: Boolean
 })
 
 module.exports = mongoose.model('Favorite', FavoriteSchema);
