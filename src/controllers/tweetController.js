@@ -1,6 +1,5 @@
 const Tweet = require('../models/tweetSchema'),
-    Favorite = require('../models/favoriteSchema'),
-    User = require('../models/userSchema');
+    Favorite = require('../models/favoriteSchema');
 
 exports.createTweets = async (req, res) => {
     console.log('createTweet....')
@@ -34,7 +33,7 @@ exports.confirmNotification = async (req, res) => {
         .populate({path:'user'}).populate({path:'tweet',match:{user:req.user._id}}).exec(async (err, result) => {
             if (err) console.log(err)
             else {
-                console.log('fav find isRead...' + result)
+                // console.log('fav find isRead...' + result)
                 //mongoDBからフィルタリングしてもnullが返ってきて取得したくないものも取ってきてしまうので
                 // for文で投稿内容がnull以外のものを新たに連想配列として作成
                 for (let i = 0 ; i < result.length ; i++ ){
@@ -52,8 +51,9 @@ exports.confirmNotification = async (req, res) => {
 
 exports.getAllTweets = async (req, res) => {
     //取得する際にログインユーザーがいいねした投稿内容を把握する必要あり
-    console.log('getAllTweets......')
-    await Tweet.find({}).populate('user').exec((error, result) => {
+    //console.log('getAllTweets......')
+    //降順（最新を上に表示できるように）で取得
+    await Tweet.find({}).sort({_id:-1}).populate('user').exec((error, result) => {
         //本来であれば、ログイン中のユーザー情報をreq.userから取得する
         const user = {name: 'testname', password: 'tesrpass', email: 'testmail'}
         if (error) console.log("error")
