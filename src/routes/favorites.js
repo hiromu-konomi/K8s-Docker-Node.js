@@ -4,5 +4,6 @@ const express = require('express'),
     favoriteController = require('../controllers/favoriteController');
 
 router.post('/switch/:id', auth.ensureAuthenticated, favoriteController.switchFavorite);
+router.post('/isRead', auth.ensureAuthenticated, favoriteController.switchIsRead);
 
 module.exports = router;
