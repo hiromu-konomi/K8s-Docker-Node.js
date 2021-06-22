@@ -20,11 +20,15 @@ $(function(){
         $.ajax({
             url: `http://localhost:3000/tweets/confirmNotification`,
             type:'GET',
-        }).done(function( data, textStatus, jqXHR ) {
+        }).done(function( notificationData, textStatus, jqXHR ) {
             console.log("done...")
-            console.log(data)
-            if (data.result.length !== 0){
-                alert(`OOさん宛に${data.result.length}件通知がきています`)
+            console.log(notificationData)
+            if (notificationData.result.length !== 0){
+                alert(`OOさん宛に${notificationData.result.length}件通知がきています`)
+                const msg = notificationData.result[0].content
+                for (let i = 0 ; i < notificationData.result.length ; i++){
+                    $('#select_menu').append(`<option value="i">${notificationData.result[i].user.name}さんがあなたの投稿にいいねしました</option>`);
+                }
             }
         }).fail(function( jqXHR, textStatus, errorThrown) {
             console.log("fail")
@@ -32,6 +36,7 @@ $(function(){
             console.log("always")
         })
     })
+    //いいねボタン押下時
     $("button").on("click", function(e) {
         console.log(e.target.value)
         console.log('switchFavorite....')
@@ -42,6 +47,20 @@ $(function(){
             console.log("done : " + JSON.stringify(data))
             if(data) $(`.${e.target.value}`).css('background-color','lightcoral');
             else $(`.${e.target.value}`).css('background-color','lightblue');
+        }).fail(function( jqXHR, textStatus, errorThrown) {
+            console.log("fail")
+        }).always(function( jqXHR, textStatus) {
+            console.log("always")
+        })
+    });
+    //未読通知確認
+    $("#select_menu").on("click", function(e) {
+        console.log('switchIsRead...')
+        $.ajax({
+            url: `http://localhost:3000/favorites/isRead`,
+            type:'POST',
+        }).done(function( data, textStatus, jqXHR ) {
+            console.log('isRead done')
         }).fail(function( jqXHR, textStatus, errorThrown) {
             console.log("fail")
         }).always(function( jqXHR, textStatus) {

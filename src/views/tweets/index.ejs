@@ -7,9 +7,32 @@
     <script type="text/javascript" src="../../public/js/index2.js"></script>
 </head>
 <body>
-<h1><%= user.name %></h1>
-<p>Welcome to <%= user.password %></p>
-
+<header class="site-header">
+    <div class="wrapper site-header__wrapper">
+        <p class="brand"><%= user.name %></p>
+        <nav class="nav">
+            <button class="nav__toggle" aria-expanded="false" type="button">
+                menu
+            </button>
+            <ul class="nav__wrapper">
+                <select name=”month” id="select_menu">
+                    <option value='' disabled selected style='display:none;'>通知</option>
+                </select>
+                <p class="nav__item"><a href="/register">REGISTER</a></p>
+                <p class="nav__item"><a href="login">LOGIN</a></p>
+                <p class="nav__item"><a href="#">LOGOUT</a></p>
+            </ul>
+        </nav>
+    </div>
+</header>
+<br/>
+<form method="post" action="/tweets/create">
+    <textarea type="text"  name="content" placeholder="content" cols="30" rows="4"></textarea>
+    <br/>
+    <br/>
+    <input type="submit" >
+</form>
+<hr>
 <% if ( tweets.length === 0 ) { %>
     <p>No Tweets</p>
 <% } else {%>
@@ -17,23 +40,10 @@
         <p class="usertext">user : <%= tweet.user.name %> </p>
         <p>content : <%= tweet.content %> </p>
         <p>
-<!--        <form action='/favorites/switch/<%= tweet._id %>' method="post">-->
-<!--            <button type="submit" value="<%= tweet._id%>" id='myButton' class="button">いいね</button>-->
-<!--        </form>-->
         <button type="submit" value="<%= tweet._id%>" id='myButton' class="<%= tweet._id %>" >いいね</button>
         </p>
+        <hr/>
     <%})%>
 <% } %>
-<hr>
-
-<form method="post" action="/tweets/create">
-    <textarea type="text"  name="content" placeholder="content" cols="30" rows="4">
-
-    </textarea>
-    <br/>
-    <br/>
-    <input type="submit" >
-</form>
-
 </body>
 </html>

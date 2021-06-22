@@ -1,5 +1,4 @@
 const Tweet = require('../models/tweetSchema'),
-    User = require('../models/userSchema'),
     Favorite = require('../models/favoriteSchema');
 
 exports.switchFavorite = async (req, res) => {
@@ -68,3 +67,23 @@ exports.switchFavorite = async (req, res) => {
 //投稿一覧画面遷移時、通知内容が存在するか確認
 //（isReadがfalseのfavoritesドキュメントが１つでも存在したら）アイコン光らせる？
 
+
+exports.switchIsRead = async (req,res) => {
+    await Favorite.find({'user': { '$ne':req.user } ,'isRead': false})
+        .populate({path:'user'}).populate({path:'tweet',match:{user:req.user._id}}).exec(async (err, result) => {
+            if (err) console.log(err)
+            else {
+                // console.log('fav find isRead...' + result)
+                //mongoDBからフィルタリングしてもnullが返ってきて取得したくないものも取ってきてしまうので
+                // for文で投稿内容がnull以外のものを新たに連想配列として作成
+                for (let i = 0 ; i < result.length ; i++ ){
+                    if (result[i].tweet !== null ){
+                        result[i].isRead = true
+                        await result[i].save()
+                    }
+                }
+            }
+            console.log('isRead....' + result)
+        })
+    res.json('')
+}
