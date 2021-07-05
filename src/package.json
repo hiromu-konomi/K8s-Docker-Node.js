@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "nodemon ./bin/www",
+    "test": "jest",
     "compile:sass": "node-sass public/sass/index.scss public/stylesheets/style.css -w"
   },
   "dependencies": {
@@ -17,7 +18,6 @@
     "express": "~4.16.1",
     "express-session": "^1.17.2",
     "http-errors": "~1.6.3",
-    "jest": "^27.0.4",
     "method-override": "^3.0.0",
     "mongodb": "^3.6.9",
     "mongoose": "^5.12.12",
@@ -26,5 +26,9 @@
     "nodemon": "^2.0.7",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0"
+  },
+  "devDependencies": {
+    "supertest": "^6.1.3",
+    "jest": "^27.0.4"
   }
 }
