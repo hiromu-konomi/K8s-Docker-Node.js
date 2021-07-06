@@ -13,7 +13,7 @@ router.post('/login',
 );
 router.post('/logout', (req, res) => {
     req.session.passport = undefined;
-    res.redirect('/');
+    res.redirect('/tweets');
 });
 
 module.exports = router;
