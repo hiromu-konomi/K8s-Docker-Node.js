@@ -1,11 +1,9 @@
 body {
   padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-}
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; }
 
 a {
-  color: #00B7FF;
-}
+  color: #00b7ff; }
 
 .brand {
   font-weight: bold;
@@ -18,6 +16,7 @@ a {
 .site-header__wrapper {
   padding-top: 1rem;
   padding-bottom: 1rem; }
+
 @media (min-width: 600px) {
   .site-header__wrapper {
     display: flex;
@@ -25,6 +24,7 @@ a {
     align-items: center;
     padding-top: 0;
     padding-bottom: 0; } }
+
 @media (min-width: 600px) {
   .nav__wrapper {
     display: flex; } }
@@ -52,9 +52,66 @@ a {
 
 .nav__toggle {
   display: none; }
+
 @media (max-width: 599px) {
   .nav__toggle {
     display: block;
     position: absolute;
     right: 1rem;
     top: 1rem; } }
+
+.login-header {
+  position: relative;
+  background-color: #def0e0; }
+
+.login-header__wrapper {
+  padding-top: 1rem;
+  padding-bottom: 1rem; }
+
+@media (min-width: 600px) {
+  .login-header__wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 0;
+    padding-bottom: 0; } }
+
+.login-form {
+  background-color: #f6f8f6; }
+
+.login-form__wrapper {
+  padding-top: 1rem;
+  display: flex;
+  justify-content: center; }
+
+.login-bottun__wrapper {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  display: flex;
+  justify-content: center; }
+
+.login-input {
+  width: 100%;
+  padding: 10px 15px;
+  font-size: 18px;
+  border-radius: 3px;
+  border: 2px solid #ddd;
+  box-sizing: border-box; }
+  .login-input:focus {
+    border: 2px solid #1cb94bfb;
+    z-index: 10;
+    outline: 0; }
+
+.login-link {
+  font-size: 18px; }
+
+.login-button {
+  appearance: none;
+  border: 0;
+  border-radius: 5px;
+  background: #75d48d;
+  color: #fff;
+  padding: 8px 16px;
+  font-size: 16px; }
+  .login-button:hover {
+    background: #1daa35; }

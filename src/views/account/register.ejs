@@ -7,14 +7,39 @@
     <link rel="stylesheet" href="/stylesheets/style.css" />
 </head>
 <body>
-    <form action="/users/create" method="POST">
-        <label>アカウント名</label>
-        <input type="text" name="name" autofocus required>
-        <label>メールアドレス</label>
-        <input type="text" name="email">
-        <label>パスワード</label>
-        <input type="password" name="password" required>
-        <button type="submit">登録</button>
-    </form>
+    <header class="login-header">
+        <div class="wrapper login-header__wrapper">
+            <p class="brand">ユーザー登録画面</p>
+        </div>
+    </header>
+    <div class="login-form">
+        <div class="wrapper login-form__wrapper">
+            <form action="/users/create" method="POST">
+                <label>アカウント名</label>
+                <br/>
+                <input  class="login-input" type="text" name="name" autofocus required>
+                <br/>
+                <br/>
+                <label>メールアドレス</label>
+                <br/>
+                <input  class="login-input" type="text" name="email">
+                <br/>
+                <br/>
+                <label>パスワード</label>
+                <br/>
+                <input  class="login-input" type="password" name="password" required>
+                <br/>
+                <br/>
+                <p  class="login-link">
+                    <a href="/login">ユーザー登録がお済みの方はこちら</a>
+                </p>
+                <br/>
+                <hr/>
+                <div class="wrapper login-bottun__wrapper">
+                    <button type="submit" class="login-button">登録</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </body>
 </html>
