@@ -3,3 +3,4 @@ docker/mongo/db
 .DS_Store
 src/node_modules
 .vscode/
+keyfile
