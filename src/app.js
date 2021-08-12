@@ -15,7 +15,8 @@ const createError = require('http-errors'),
     app = express();
 
 
-mongoose.connect('mongodb://mongo:18fuw63x@mongo:27017/test?authSource=admin', {
+
+mongoose.connect('mongodb://mongo-0.mongo,mongo-1.mongo,mongo-2.mongo:27017/test?authSource=admin', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 }).then(()=>{
@@ -26,6 +27,18 @@ mongoose.connect('mongodb://mongo:18fuw63x@mongo:27017/test?authSource=admin', {
 });
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
+
+// mongoose.connect('mongodb://mongo:18fuw63x@mongo:27017/test?authSource=admin', {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true,
+// }).then(()=>{
+//     console.log('connect')
+// }).catch((err) => {
+//     console.log('error')
+//     console.error(err);
+// });
+// const db = mongoose.connection;
+// db.on('error', console.error.bind(console, 'connection error:'));
 
 //消さないでおいてくれると助かります
 // mongoose.connect('mongodb://root:test@mongo:27017/test?authSource=admin', {

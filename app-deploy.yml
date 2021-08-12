@@ -1,0 +1,57 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-svc
+  labels:
+    app: node_dd
+    type: application
+spec:
+  type: NodePort
+  ports:
+    - name: app-port
+      protocol: TCP
+      port: 3000
+      targetPort: 3000
+  selector:
+    app: node_dd
+    type: application
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app
+  labels:
+    app: node_dd
+    type: application
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: node_dd
+      type: application
+  strategy:
+    rollingUpdate:
+      maxSurge: 1 # 許容するPod追加数
+      maxUnavailable: 1 # 許容するPod削除数
+    type: RollingUpdate
+  revisionHistoryLimit: 14
+  template:
+    metadata:
+      name: app
+      labels:
+        app: node_dd
+        type: application
+    spec:
+      containers:
+        - name: app
+          image: gcr.io/nodejs-k8s-315606/nodejs-k8s_app
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+          env:
+            - name: "MONGODB_HOSTS"
+              value: "mongo-0.mongo:27017,mongo-1.mongo:27017,mongo-2.mongo:27017"
+            - name: "MONGODB_DATABASE"
+              value: "mongo"
+            - name: "MONGODB_REPLICASET"
+              value: "rs0"
